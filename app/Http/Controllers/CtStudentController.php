@@ -34,7 +34,8 @@ class CtStudentController extends InfyOmBaseController
     {
 
         $this->ctStudentRepository->pushCriteria(new RequestCriteria($request));
-        $ctStudents = $this->ctStudentRepository->all();
+//        $ctStudents = $this->ctStudentRepository->all();
+        $ctStudents = $this->ctStudentRepository->paginate(20);
         return view('admin.ctStudents.index')
             ->with('ctStudents', $ctStudents);
     }

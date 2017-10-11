@@ -163,7 +163,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], f
 
 
 
-	Route::get('import', 'DataImportController@index');
+	Route::get('import', ['as' => 'dataImport.index', 'uses' => 'DataImportController@index']);
 	Route::post('import', ['as' => 'dataImport.student', 'uses' => 'DataImportController@import']);
 
 

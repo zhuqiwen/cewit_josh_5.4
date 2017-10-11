@@ -32,8 +32,8 @@ CtStudents
                     <a href="{{ route('admin.ctStudents.create') }}" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span> @lang('button.create')</a>
                 </div>
             </div>
-            <br />
             <div class="panel-body table-responsive">
+                {{$ctStudents->links()}}
                  @include('admin.ctStudents.table')
                  
             </div>
