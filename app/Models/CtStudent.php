@@ -25,6 +25,14 @@ class CtStudent extends Model
         'ethnicity'
     ];
 
+
+    public $import_fields = [
+        'school',
+        'academic_career',
+        'academic_standing',
+        'ethnicity'
+    ];
+
     /**
      * The attributes that should be casted to native types.
      *

@@ -164,7 +164,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'as' => 'admin.'], f
 
 
 	Route::get('import', 'DataImportController@index');
-	Route::post('import/student', ['as' => 'dataImport.student', 'uses' => 'DataImportController@import']);
+	Route::post('import', ['as' => 'dataImport.student', 'uses' => 'DataImportController@import']);
 
 
     # Remaining pages will be called from below controller method

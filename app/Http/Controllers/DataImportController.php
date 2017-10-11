@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CtContact;
+use App\Models\CtStudent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Laracasts\Flash\Flash;
@@ -26,7 +28,10 @@ class DataImportController extends Controller
 			if($request->category == 'student')
 			{
 				$this->importStudents($file);
-			}
+                Flash::success('Data imported successfully');
+                return redirect(route('admin.ctStudents.index'));
+
+            }
 		}
 		else
 		{
@@ -51,10 +56,33 @@ class DataImportController extends Controller
 
 	private function importStudents($csv_file)
 	{
+	    $contact_importer = new CtContact();
+	    $student_importer = new CtStudent();
+
 		$excel = App::make('excel');
 		$excel->load($csv_file, function($reader){
 
-			dd($reader->toArray());
+		    foreach($reader->toArray() as $row)
+            {
+                $contact = new CtContact();
+                $student = new CtStudent();
+                foreach ($contact->import_fields as $field)
+                {
+                    $contact[$field] = $row[$field];
+                }
+
+                $contact->save();
+
+                $student->contact_id = $contact->id;
+
+                foreach ($student->import_fields as $field)
+                {
+                    $student[$field] = $row[$field];
+                }
+
+                $student->save();
+            }
+
 		});
 
 	}

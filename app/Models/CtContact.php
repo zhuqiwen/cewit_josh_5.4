@@ -29,6 +29,14 @@ class CtContact extends Model
         'is_test'
     ];
 
+    public $import_fields = [
+        'first_name',
+        'last_name',
+        'email',
+        'iu_username',
+        'gender',
+    ];
+
     /**
      * The attributes that should be casted to native types.
      *
