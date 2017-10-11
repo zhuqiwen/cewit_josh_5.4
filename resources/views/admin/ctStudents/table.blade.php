@@ -32,6 +32,7 @@
     @endforeach
     </tbody>
 </table>
+
 @section('footer_scripts')
     <div class="modal fade" id="delete_confirm" tabindex="-1" role="dialog" aria-labelledby="user_delete_confirm_title" aria-hidden="true">
         <div class="modal-dialog">
