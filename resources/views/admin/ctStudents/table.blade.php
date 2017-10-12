@@ -22,8 +22,8 @@
             <td>{!! $ctStudent->contact->first_name !!}</td>
             <td>{!! $ctStudent->contact->last_name !!}</td>
             <td>{!! $ctStudent->contact->email !!}</td>
-            <td>{!! $ctStudent->contact->gender !!}</td>
             <td>{!! $ctStudent->contact->iu_username !!}</td>
+            <td>{!! $ctStudent->contact->gender !!}</td>
             <td>{!! $ctStudent->contact->join_date !!}</td>
             <td>{!! $ctStudent->school !!}</td>
             <td>{!! $ctStudent->academic_career !!}</td>

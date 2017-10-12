@@ -8,8 +8,10 @@ use App\Http\Requests\UpdateCtStudentRequest;
 use App\Repositories\CtStudentRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use App\Models\CtStudent;
+use App\Models\CtContact;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
@@ -21,12 +23,20 @@ class CtStudentController extends InfyOmBaseController
     /** @var  CtStudentRepository */
     private $ctStudentRepository;
 
+    private $schools;
+    private $academic_careers;
+    private $academic_standings;
+    private $ethnicities;
 
 
 
     public function __construct(CtStudentRepository $ctStudentRepo)
     {
         $this->ctStudentRepository = $ctStudentRepo;
+        $this->schools = $this->getDistinct('CtStudent', 'school');
+        $this->academic_careers = $this->getDistinct('CtStudent', 'academic_career');
+        $this->academic_standings = $this->getDistinct('CtStudent', 'academic_standing');
+        $this->ethnicities = $this->getDistinct('CtStudent', 'ethnicity');
     }
 
     /**
@@ -39,9 +49,14 @@ class CtStudentController extends InfyOmBaseController
     {
         $this->ctStudentRepository->pushCriteria(new RequestCriteria($request));
 //        $ctStudents = $this->ctStudentRepository->all();
+
         $ctStudents = $this->ctStudentRepository->with('contact')->paginate(20);
         return view('admin.ctStudents.index')
-            ->with('ctStudents', $ctStudents);
+            ->with('ctStudents', $ctStudents)
+            ->with('schools', $this->schools)
+            ->with('academic_standings', $this->academic_standings)
+            ->with('academic_careers', $this->academic_careers)
+            ->with('ethnicities', $this->ethnicities);
     }
 
     /**
@@ -147,27 +162,124 @@ class CtStudentController extends InfyOmBaseController
      * @return Response
      */
 	public function getModalDelete($id = null)
-      {
-          $error = '';
-          $model = '';
-          $confirm_route =  route('admin.ctStudents.delete',['id'=>$id]);
-          return View('admin.layouts/modal_confirmation', compact('error','model', 'confirm_route'));
+    {
+      $error = '';
+      $model = '';
+      $confirm_route =  route('admin.ctStudents.delete',['id'=>$id]);
+      return View('admin.layouts/modal_confirmation', compact('error','model', 'confirm_route'));
 
-      }
+    }
 
 	public function getDelete($id = null)
-       {
-           $sample = CtStudent::destroy($id);
+    {
+       $sample = CtStudent::destroy($id);
 
-           // Redirect to the group management page
-           return redirect(route('admin.ctStudents.index'))->with('success', Lang::get('message.success.delete'));
+       // Redirect to the group management page
+       return redirect(route('admin.ctStudents.index'))->with('success', Lang::get('message.success.delete'));
 
-       }
+    }
+
+    public function filter(Request $request)
+    {
+        $query = CtStudent::with('contact');
+
+        //contact relationship
+        if($request->has('first_name'))
+        {
+            $query->whereHas('contact', function ($q) use($request){
+                return $q->where('first_name', 'LIKE', '%' . $request->first_name . '%');
+            });
+        }
+
+        if($request->has('last_name'))
+        {
+            $query->whereHas('contact', function ($q) use($request){
+                return $q->where('last_name', 'LIKE', '%' . $request->last_name . '%');
+            });
+        }
+
+        if($request->has('gender'))
+        {
+            $query->whereHas('contact', function ($q) use($request){
+                return $q->where('gender', 'LIKE', '%' . $request->gender . '%');
+            });
+        }
+
+        if($request->has('email'))
+        {
+            $query->whereHas('contact', function ($q) use($request){
+                return $q->where('email', 'LIKE', '%' . $request->email . '%');
+            });
+        }
+
+        if($request->has('iu_username'))
+        {
+            $query->whereHas('contact', function ($q) use($request){
+                return $q->where('iu_username', 'LIKE', '%' . $request->iu_username . '%');
+            });
+        }
+
+        if($request->has('join_date'))
+        {
+            $query->whereHas('contact', function ($q) use($request){
+                return $q->where('join_date', $request->join_date);
+            });
+        }
+
+        //End contact relationship
 
 
-       /**
-        * helpers
-        */
+        if($request->has('school'))
+        {
+            $query->where('school', 'like', $request->school);
+        }
+
+        if($request->has('ethnicity'))
+        {
+            $query->where('ethnicity', 'like', $request->ethnicity);
+
+        }
+
+        if($request->has('academic_career'))
+        {
+            $query->where('academic_career', 'like', $request->academic_career);
+
+        }
+
+        if($request->has('academic_standing'))
+        {
+            $query->where('academic_standing', 'like', $request->academic_standing);
+
+        }
+
+        dd($query->get());
+    }
+
+
+
+
+
+    /**
+    * helpers
+    */
+
+    /**
+     * @param string $model, string $field
+     * @return array
+     */
+    private function getDistinct($model, $field)
+    {
+        $model = 'App\Models'.'\\'.$model;
+        $model = new $model();
+        $objs = $model->select($field)->distinct()->get()->toArray();
+        $results = [];
+        foreach ($objs as $obj)
+        {
+            $results[$obj[$field]] = $obj[$field];
+        }
+        return $results;
+    }
+
 
 
 }

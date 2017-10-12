@@ -33,6 +33,11 @@ CtStudents
                 </div>
             </div>
             <div class="panel-body table-responsive">
+                <div class="row">
+                    <div class="col-md-12" id="filter-div">
+                        @include('admin.ctStudents.filter')
+                    </div>
+                </div>
                 {{$ctStudents->links()}}
                  @include('admin.ctStudents.table')
             </div>
