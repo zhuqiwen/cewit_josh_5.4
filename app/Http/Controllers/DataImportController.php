@@ -15,7 +15,10 @@ class DataImportController extends Controller
     //
 	public function index()
 	{
-		return view('admin.dataImport.index');
+	    $num_majors = CtMajor::count();
+	    $num_students = CtStudent::count();
+		return view('admin.dataImport.index')
+            ->with(compact('num_majors', 'num_students'));
 	}
 
 
@@ -85,12 +88,12 @@ class DataImportController extends Controller
      * @param string $csv_file: path to file
      * @return bool
      */
-	private function importStudents(string $csv_file)
+	private function importStudents($csv_file)
 	{
 
 		$excel = App::make('excel');
 		$success = TRUE;
-		$excel->filter('chunk')->load($csv_file)->chunk(100, function($reader) use (&$success){
+		$excel->filter('chunk')->load($csv_file)->chunk(50, function($reader) use (&$success){
 
 		    DB::beginTransaction();
 		    try
@@ -118,7 +121,7 @@ class DataImportController extends Controller
      * @param string $csv_file: path to file
      * @return bool
      */
-	private function importMajors(string $csv_file)
+	private function importMajors($csv_file)
     {
         $excel = App::make('excel');
         $success = TRUE;
@@ -157,6 +160,17 @@ class DataImportController extends Controller
     {
         $contact = new CtContact();
         $student = new CtStudent();
+        $majors_array = [];
+        for($i = 0; $i < 3; $i++)
+        {
+            $n = $i + 1;
+            if($row['major'.$n])
+            {
+                $majors_array[] = $row['major'.$n];
+            }
+        }
+
+
 
         if($contact->where('iu_username', strtolower($row['iu_username']))->count() == 0)
         {
@@ -175,8 +189,6 @@ class DataImportController extends Controller
 
             $contact = $contact->create($contact_data);
 
-
-
             $student_data = [
                 "contact_id" => $contact->id,
                 "school" => $row['school'],
@@ -187,6 +199,22 @@ class DataImportController extends Controller
 
             $student = $student->create($student_data);
 
+            foreach ($majors_array as $value)
+            {
+                $major = CtMajor::where('major', strtolower($value))->first();
+
+                if(!$major)
+                {
+                    //insert new major
+                    $major = CtMajor::create([
+                        'major' => strtolower($value),
+                    ]);
+
+                }
+                $student->majors()->attach($major->id);
+
+
+            }
 
 
         }

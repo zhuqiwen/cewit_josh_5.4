@@ -34,7 +34,7 @@ class CtMajorController extends InfyOmBaseController
     {
 
         $this->ctMajorRepository->pushCriteria(new RequestCriteria($request));
-        $ctMajors = $this->ctMajorRepository->all();
+        $ctMajors = $this->ctMajorRepository->paginate(20);
         return view('admin.ctMajors.index')
             ->with('ctMajors', $ctMajors);
     }

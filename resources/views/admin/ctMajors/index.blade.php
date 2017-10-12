@@ -34,6 +34,7 @@ CtMajors
             </div>
             <br />
             <div class="panel-body table-responsive">
+                {{$ctMajors->links()}}
                  @include('admin.ctMajors.table')
                  
             </div>

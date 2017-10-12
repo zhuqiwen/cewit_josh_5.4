@@ -41,6 +41,9 @@
                                 <i class="livicon" data-name="clock" data-size="16" data-loop="true" data-c="#fff" data-hc="white"></i>
                                 Import Students
                             </h3>
+                            <span class="pull-right">
+                                Current: {{$num_students}} records
+                            </span>
                         </div>
                         <div class="panel-body">
                             @include('admin.dataImport.data_form_student')
@@ -54,6 +57,9 @@
                                 <i class="livicon" data-name="clock" data-size="16" data-loop="true" data-c="#fff" data-hc="white"></i>
                                 Import Majors
                             </h3>
+                            <span class="pull-right">
+                                Current: {{$num_majors}} records
+                            </span>
                         </div>
                         <div class="panel-body">
                             @include('admin.dataImport.data_form_major')
