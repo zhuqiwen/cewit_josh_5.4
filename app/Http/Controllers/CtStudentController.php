@@ -252,7 +252,15 @@ class CtStudentController extends InfyOmBaseController
 
         }
 
-        dd($query->get());
+//        dd($query->get());
+
+
+        return view('admin.ctStudents.index')
+            ->with('ctStudents', $query->paginate(20))
+            ->with('schools', $this->schools)
+            ->with('academic_standings', $this->academic_standings)
+            ->with('academic_careers', $this->academic_careers)
+            ->with('ethnicities', $this->ethnicities);
     }
 
 
@@ -271,7 +279,7 @@ class CtStudentController extends InfyOmBaseController
     {
         $model = 'App\Models'.'\\'.$model;
         $model = new $model();
-        $objs = $model->select($field)->distinct()->get()->toArray();
+        $objs = $model->select($field)->distinct()->orderBy($field, 'asc')->get()->toArray();
         $results = [];
         foreach ($objs as $obj)
         {

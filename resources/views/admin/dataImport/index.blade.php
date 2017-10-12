@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <div class="panel panel-primary" id="hidepanel1">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3 class="panel-title">
                                 <i class="livicon" data-name="clock" data-size="16" data-loop="true" data-c="#fff" data-hc="white"></i>
@@ -44,8 +44,19 @@
                         </div>
                         <div class="panel-body">
                             @include('admin.dataImport.data_form_student')
-
-
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <i class="livicon" data-name="clock" data-size="16" data-loop="true" data-c="#fff" data-hc="white"></i>
+                                Import Majors
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            @include('admin.dataImport.data_form_major')
                         </div>
                     </div>
                 </div>

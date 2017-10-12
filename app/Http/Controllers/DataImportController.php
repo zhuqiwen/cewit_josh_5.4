@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CtContact;
+use App\Models\CtMajor;
 use App\Models\CtStudent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -42,6 +43,22 @@ class DataImportController extends Controller
                 }
 
             }
+            elseif ($request->category == 'major')
+            {
+                $success = $this->importMajors($file);
+
+                if($success)
+                {
+                    Flash::success('Data imported successfully');
+                    return redirect(route('admin.ctMajors.index'));
+                }
+                else
+                {
+                    Flash::error('Data not imported for some reason; please try again later');
+                    return redirect(route('admin.dataImport.index'));
+                }
+
+            }
 		}
 		else
 		{
@@ -64,7 +81,11 @@ class DataImportController extends Controller
 	 * importers
 	 */
 
-	private function importStudents($csv_file)
+    /**
+     * @param string $csv_file: path to file
+     * @return bool
+     */
+	private function importStudents(string $csv_file)
 	{
 
 		$excel = App::make('excel');
@@ -92,6 +113,37 @@ class DataImportController extends Controller
 		return $success;
 
 	}
+
+    /**
+     * @param string $csv_file: path to file
+     * @return bool
+     */
+	private function importMajors(string $csv_file)
+    {
+        $excel = App::make('excel');
+        $success = TRUE;
+        $excel->filter('chunk')->load($csv_file)->chunk(100, function($reader) use (&$success){
+
+            DB::beginTransaction();
+            try
+            {
+                foreach($reader->toArray() as $row)
+                {
+                    $this->importOneMajor($row);
+                }
+
+                DB::commit();
+            }
+            catch (\Exception $e)
+            {
+                dd($e);
+                DB::rollback();
+                $success = FALSE;
+            }
+        });
+
+        return $success;
+    }
 
 
 	/**
@@ -135,6 +187,24 @@ class DataImportController extends Controller
 
             $student = $student->create($student_data);
 
+
+
+        }
+    }
+
+
+    private function importOneMajor($row = [])
+    {
+        $major = new CtMajor();
+
+        if($major->where('major', strtolower($row['major']))->count() == 0)
+        {
+            $data = [
+                'major' => strtolower($row['major']),
+                'type' => strtolower($row['type']),
+            ];
+
+            $major->create($data);
         }
     }
 }
