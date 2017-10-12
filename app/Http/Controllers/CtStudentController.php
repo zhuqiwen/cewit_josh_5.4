@@ -14,6 +14,7 @@ use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
+
 class CtStudentController extends InfyOmBaseController
 {
     /** @var  CtStudentRepository */
@@ -120,7 +121,7 @@ class CtStudentController extends InfyOmBaseController
     {
         $ctStudent = $this->ctStudentRepository->findWithoutFail($id);
 
-        
+
 
         if (empty($ctStudent)) {
             Flash::error('CtStudent not found');

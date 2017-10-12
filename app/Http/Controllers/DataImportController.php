@@ -68,7 +68,8 @@ class DataImportController extends Controller
 	{
 
 		$excel = App::make('excel');
-		$excel->filter('chunk')->load($csv_file)->chunk(100, function($reader){
+		$success = TRUE;
+		$excel->filter('chunk')->load($csv_file)->chunk(100, function($reader) use (&$success){
 
 		    DB::beginTransaction();
 		    try
@@ -79,23 +80,16 @@ class DataImportController extends Controller
                 }
 
                 DB::commit();
-                $success = true;
             }
             catch (\Exception $e)
             {
-                $success = false;
+	            dd($e);
                 DB::rollback();
+	            $success = FALSE;
             }
-
-            if($success)
-            {
-                return true;
-            }
-
-            return false;
-
-
 		});
+
+		return $success;
 
 	}
 
@@ -112,15 +106,15 @@ class DataImportController extends Controller
         $contact = new CtContact();
         $student = new CtStudent();
 
-        if($contact->where('iu_username', $row['iu_username'])->count() == 0)
+        if($contact->where('iu_username', strtolower($row['iu_username']))->count() == 0)
         {
 
             $contact_data = [
-                "first_name" => $row['first_name'],
-                "last_name" => $row['last_name'],
-                "email" => $row['email'],
-                "iu_username" => $row['iu_username'],
-                "gender" => $row['gender'],
+                "first_name" => strtolower($row['first_name']),
+                "last_name" => strtolower($row['last_name']),
+                "email" => strtolower($row['email']),
+                "iu_username" => strtolower($row['iu_username']),
+                "gender" => strtolower($row['gender']),
                 "join_date" => '2017-06-21',
                 "is_active" => true,
                 "is_affiliate" => true,
@@ -128,6 +122,7 @@ class DataImportController extends Controller
             ];
 
             $contact = $contact->create($contact_data);
+
 
 
             $student_data = [

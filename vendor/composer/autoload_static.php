@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit178a01073b268e099d6a004438147a5a
+class ComposerStaticInit197a7c5010df4d3ee8112cc2cda67be6
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -12,15 +12,15 @@ class ComposerStaticInit178a01073b268e099d6a004438147a5a
         '1d1b89d124cc9cb8219922c9d5569199' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
+        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
-        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
+        'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
         'e23faeee409e941dc9b4c80386209c39' => __DIR__ . '/..' . '/laracasts/flash/src/Laracasts/Flash/functions.php',
-        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '0ccdf99b8f62f02c52cba55802e0c2e7' => __DIR__ . '/..' . '/zircote/swagger-php/src/functions.php',
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         'a28599dc506da421718fad75955a4b9d' => __DIR__ . '/..' . '/infyomlabs/laravel-generator/src/helpers.php',
-        'f18cc91337d49233e5754e93f3ed9ec3' => __DIR__ . '/..' . '/laravelcollective/html/src/helpers.php',
         '4a1f389d6ce373bda9e57857d3b61c84' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/helpers.php',
     );
 
@@ -147,6 +147,8 @@ class ComposerStaticInit178a01073b268e099d6a004438147a5a
         'Yajra\\Datatables\\' => 
         array (
             0 => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src',
+            1 => __DIR__ . '/..' . '/yajra/laravel-datatables-html/src',
+            2 => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src',
         ),
         'XdgBaseDir\\' => 
         array (
@@ -4621,7 +4623,11 @@ class ComposerStaticInit178a01073b268e099d6a004438147a5a
         'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Rule' => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Rule.php',
         'Webmozart\\Assert\\Assert' => __DIR__ . '/..' . '/webmozart/assert/src/Assert.php',
         'XdgBaseDir\\Xdg' => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
+        'Yajra\\Datatables\\ButtonsServiceProvider' => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src/ButtonsServiceProvider.php',
+        'Yajra\\Datatables\\Contracts\\DataTableButtonsContract' => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src/Contracts/DataTableButtonsContract.php',
+        'Yajra\\Datatables\\Contracts\\DataTableContract' => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src/Contracts/DataTableContract.php',
         'Yajra\\Datatables\\Contracts\\DataTableEngineContract' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Contracts/DataTableEngineContract.php',
+        'Yajra\\Datatables\\Contracts\\DataTableScopeContract' => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src/Contracts/DataTableScopeContract.php',
         'Yajra\\Datatables\\Datatables' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Datatables.php',
         'Yajra\\Datatables\\DatatablesServiceProvider' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/DatatablesServiceProvider.php',
         'Yajra\\Datatables\\Engines\\BaseEngine' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Engines/BaseEngine.php',
@@ -4630,10 +4636,17 @@ class ComposerStaticInit178a01073b268e099d6a004438147a5a
         'Yajra\\Datatables\\Engines\\QueryBuilderEngine' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Engines/QueryBuilderEngine.php',
         'Yajra\\Datatables\\Exception' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Exception.php',
         'Yajra\\Datatables\\Facades\\Datatables' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Facades/Datatables.php',
+        'Yajra\\Datatables\\Generators\\DataTablesMakeCommand' => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src/Generators/DataTablesMakeCommand.php',
+        'Yajra\\Datatables\\Generators\\DataTablesScopeCommand' => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src/Generators/DataTablesScopeCommand.php',
         'Yajra\\Datatables\\Helper' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Helper.php',
+        'Yajra\\Datatables\\HtmlServiceProvider' => __DIR__ . '/..' . '/yajra/laravel-datatables-html/src/HtmlServiceProvider.php',
+        'Yajra\\Datatables\\Html\\Builder' => __DIR__ . '/..' . '/yajra/laravel-datatables-html/src/Html/Builder.php',
+        'Yajra\\Datatables\\Html\\Column' => __DIR__ . '/..' . '/yajra/laravel-datatables-html/src/Html/Column.php',
+        'Yajra\\Datatables\\Html\\Parameters' => __DIR__ . '/..' . '/yajra/laravel-datatables-html/src/Html/Parameters.php',
         'Yajra\\Datatables\\Processors\\DataProcessor' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Processors/DataProcessor.php',
         'Yajra\\Datatables\\Processors\\RowProcessor' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Processors/RowProcessor.php',
         'Yajra\\Datatables\\Request' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Request.php',
+        'Yajra\\Datatables\\Services\\DataTable' => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src/Services/DataTable.php',
         'Yajra\\Datatables\\Transformers\\DataTransformer' => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src/Transformers/DataTransformer.php',
         'phpDocumentor\\Reflection\\DocBlock' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlock.php',
         'phpDocumentor\\Reflection\\DocBlockFactory' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactory.php',
@@ -4705,10 +4718,10 @@ class ComposerStaticInit178a01073b268e099d6a004438147a5a
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit178a01073b268e099d6a004438147a5a::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit178a01073b268e099d6a004438147a5a::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit178a01073b268e099d6a004438147a5a::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit178a01073b268e099d6a004438147a5a::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit197a7c5010df4d3ee8112cc2cda67be6::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit197a7c5010df4d3ee8112cc2cda67be6::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit197a7c5010df4d3ee8112cc2cda67be6::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit197a7c5010df4d3ee8112cc2cda67be6::$classMap;
 
         }, null, ClassLoader::class);
     }

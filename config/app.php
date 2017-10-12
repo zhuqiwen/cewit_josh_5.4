@@ -192,7 +192,10 @@ return [
         Cviebrock\EloquentSluggable\ServiceProvider::class,
         Cviebrock\EloquentTaggable\ServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
+	    Yajra\Datatables\ButtonsServiceProvider::class,
+	    Yajra\Datatables\HtmlServiceProvider::class,
+
+	    Intervention\Image\ImageServiceProvider::class,
 
         Laracasts\Flash\FlashServiceProvider::class,
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
@@ -262,6 +265,8 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'Flash'     => Laracasts\Flash\Flash::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+
 
 
     ],
