@@ -35,9 +35,11 @@ CtStudents
             <div class="panel-body table-responsive">
                 {{$ctStudents->links()}}
                  @include('admin.ctStudents.table')
-                 
             </div>
         </div>
  </div>
 </section>
 @stop
+
+@push('scripts')
+@endpush

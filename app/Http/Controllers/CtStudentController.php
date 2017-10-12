@@ -13,12 +13,16 @@ use App\Models\CtStudent;
 use Flash;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
+use Yajra\Datatables\Html\Builder;
 
 
 class CtStudentController extends InfyOmBaseController
 {
     /** @var  CtStudentRepository */
     private $ctStudentRepository;
+
+
+
 
     public function __construct(CtStudentRepository $ctStudentRepo)
     {
@@ -31,12 +35,11 @@ class CtStudentController extends InfyOmBaseController
      * @param Request $request
      * @return Response
      */
-    public function index(Request $request)
+    public function index(Request $request, Builder $htmlBuilder)
     {
-
         $this->ctStudentRepository->pushCriteria(new RequestCriteria($request));
 //        $ctStudents = $this->ctStudentRepository->all();
-        $ctStudents = $this->ctStudentRepository->paginate(20);
+        $ctStudents = $this->ctStudentRepository->with('contact')->paginate(20);
         return view('admin.ctStudents.index')
             ->with('ctStudents', $ctStudents);
     }
@@ -143,7 +146,7 @@ class CtStudentController extends InfyOmBaseController
      *
      * @return Response
      */
-      public function getModalDelete($id = null)
+	public function getModalDelete($id = null)
       {
           $error = '';
           $model = '';
@@ -152,7 +155,7 @@ class CtStudentController extends InfyOmBaseController
 
       }
 
-       public function getDelete($id = null)
+	public function getDelete($id = null)
        {
            $sample = CtStudent::destroy($id);
 
@@ -160,5 +163,11 @@ class CtStudentController extends InfyOmBaseController
            return redirect(route('admin.ctStudents.index'))->with('success', Lang::get('message.success.delete'));
 
        }
+
+
+       /**
+        * helpers
+        */
+
 
 }

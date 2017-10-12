@@ -2,6 +2,12 @@
     <thead>
      <tr>
         <th>Contact Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>IU Account</th>
+        <th>Gender</th>
+        <th>Join Date</th>
         <th>School</th>
         <th>Academic Career</th>
         <th>Academic Standing</th>
@@ -13,6 +19,12 @@
     @foreach($ctStudents as $ctStudent)
         <tr>
             <td>{!! $ctStudent->contact_id !!}</td>
+            <td>{!! $ctStudent->contact->first_name !!}</td>
+            <td>{!! $ctStudent->contact->last_name !!}</td>
+            <td>{!! $ctStudent->contact->email !!}</td>
+            <td>{!! $ctStudent->contact->gender !!}</td>
+            <td>{!! $ctStudent->contact->iu_username !!}</td>
+            <td>{!! $ctStudent->contact->join_date !!}</td>
             <td>{!! $ctStudent->school !!}</td>
             <td>{!! $ctStudent->academic_career !!}</td>
             <td>{!! $ctStudent->academic_standing !!}</td>
