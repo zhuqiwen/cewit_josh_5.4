@@ -1,4 +1,4 @@
-{!! Form::open(['route' => 'admin.ctStudents.filter']) !!}
+{!! Form::open(['route' => 'admin.ctStudents.filter', 'method' => 'get']) !!}
 
 <!-- Contact Fields -->
 <!-- First Name -->
@@ -68,14 +68,20 @@
 
 <!-- /End Student Info -->
 
+<!-- Major Type -->
+<div class="form-group col-md-2 col-sm-6">
+    {!! Form::label('major_type', 'Major Type:') !!}
+    {!! Form::select('major_type', ['stem' => 'STEM', 'non_stem' => 'Non STEM'], null, ['class' => 'form-control', 'placeholder' => 'Major Type']) !!}
+</div>
+
 
 <!-- Submit Field -->
-<div class="form-group col-md-2 col-sm-6 text-center">
+<div class="form-group col-md-1 col-sm-6 text-center">
     {!! Form::label('', '') !!}
 
     {!! Form::submit('Apply', ['class' => 'btn btn-primary form-control']) !!}
 </div>
-<div class="form-group col-md-2 col-sm-6 text-center">
+<div class="form-group col-md-1 col-sm-6 text-center">
     {!! Form::label('', '') !!}
     {!! Form::reset('Reset', ['class' => 'btn btn-default form-control']) !!}
 </div>

@@ -50,7 +50,10 @@ class CtStudentController extends InfyOmBaseController
         $this->ctStudentRepository->pushCriteria(new RequestCriteria($request));
 //        $ctStudents = $this->ctStudentRepository->all();
 
-        $ctStudents = $this->ctStudentRepository->with('contact')->paginate(20);
+        $ctStudents = $this->ctStudentRepository
+	        ->with('contact')
+	        ->paginate(config('constants.records_per_page.default'));
+
         return view('admin.ctStudents.index')
             ->with('ctStudents', $ctStudents)
             ->with('schools', $this->schools)
@@ -101,7 +104,7 @@ class CtStudentController extends InfyOmBaseController
         if (empty($ctStudent)) {
             Flash::error('CtStudent not found');
 
-            return redirect(route('ctStudents.index'));
+            return redirect(route('admin.ctStudents.index'));
         }
 
         return view('admin.ctStudents.show')->with('ctStudent', $ctStudent);
@@ -121,7 +124,7 @@ class CtStudentController extends InfyOmBaseController
         if (empty($ctStudent)) {
             Flash::error('CtStudent not found');
 
-            return redirect(route('ctStudents.index'));
+            return redirect(route('admin.ctStudents.index'));
         }
 
         return view('admin.ctStudents.edit')->with('ctStudent', $ctStudent);
@@ -144,7 +147,7 @@ class CtStudentController extends InfyOmBaseController
         if (empty($ctStudent)) {
             Flash::error('CtStudent not found');
 
-            return redirect(route('ctStudents.index'));
+            return redirect(route('admin.ctStudents.index'));
         }
 
         $ctStudent = $this->ctStudentRepository->update($request->all(), $id);
@@ -252,15 +255,34 @@ class CtStudentController extends InfyOmBaseController
 
         }
 
-//        dd($query->get());
+        // Major type
+	    if($request->has('major_type'))
+	    {
+		    if($request->major_type == 'stem')
+		    {
+			    $operand = '=';
+		    }
+		    else
+		    {
+			    $operand = '<>';
+		    }
+
+		    $query->whereHas('majors', function($q) use($operand){
+			    return $q->where('type', $operand, 'stem' );
+		    });
+
+	    }
 
 
+
+	    $ctstudents = $query->paginate(config('constants.records_per_page.default'));
         return view('admin.ctStudents.index')
-            ->with('ctStudents', $query->paginate(20))
+            ->with('ctStudents', $ctstudents)
             ->with('schools', $this->schools)
             ->with('academic_standings', $this->academic_standings)
             ->with('academic_careers', $this->academic_careers)
             ->with('ethnicities', $this->ethnicities);
+
     }
 
 

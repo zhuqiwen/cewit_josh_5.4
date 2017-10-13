@@ -23,11 +23,17 @@ CtStudents
 <section class="content paddingleft_right15">
     <div class="row">
      @include('flash::message')
+
+
         <div class="panel panel-primary ">
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left"> <i class="livicon" data-name="list-ul" data-size="16" data-loop="true" data-c="#fff" data-hc="white"></i>
                     CtStudents List
+                    <span>
+                        found: {{$ctStudents->total()}} records
+                    </span>
                 </h4>
+
                 <div class="pull-right">
                     <a href="{{ route('admin.ctStudents.create') }}" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span> @lang('button.create')</a>
                 </div>
@@ -38,7 +44,10 @@ CtStudents
                         @include('admin.ctStudents.filter')
                     </div>
                 </div>
-                {{$ctStudents->links()}}
+                <div style="text-align: center">
+                    {{$ctStudents->appends(Request::except(['page', '_token']))->links()}}
+
+                </div>
                  @include('admin.ctStudents.table')
             </div>
         </div>

@@ -93,7 +93,8 @@ class DataImportController extends Controller
 
 		$excel = App::make('excel');
 		$success = TRUE;
-		$excel->filter('chunk')->load($csv_file)->chunk(50, function($reader) use (&$success){
+		$cnt = 0;
+		$excel->filter('chunk')->load($csv_file)->chunk(50, function($reader) use (&$success, &$cnt){
 
 		    DB::beginTransaction();
 		    try
@@ -166,7 +167,7 @@ class DataImportController extends Controller
             $n = $i + 1;
             if($row['major'.$n])
             {
-                $majors_array[] = $row['major'.$n];
+                $majors_array[] = strtolower($row['major'.$n]);
             }
         }
 
@@ -191,10 +192,10 @@ class DataImportController extends Controller
 
             $student_data = [
                 "contact_id" => $contact->id,
-                "school" => $row['school'],
-                "academic_career" => $row['academic_career'],
-                "academic_standing" => $row['academic_standing'],
-                "ethnicity" => $row['ethnicity'],
+                "school" => strtolower($row['school']),
+                "academic_career" => strtolower($row['academic_career']),
+                "academic_standing" => strtolower($row['academic_standing']),
+                "ethnicity" => strtolower($row['ethnicity']),
             ];
 
             $student = $student->create($student_data);
