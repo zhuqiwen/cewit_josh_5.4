@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CtContact;
+use App\Models\CtFaculty;
 use App\Models\CtMajor;
 use App\Models\CtStudent;
 use Illuminate\Http\Request;
@@ -17,8 +18,9 @@ class DataImportController extends Controller
 	{
 	    $num_majors = CtMajor::count();
 	    $num_students = CtStudent::count();
+	    $num_faculty = CtFaculty::count();
 		return view('admin.dataImport.index')
-            ->with(compact('num_majors', 'num_students'));
+            ->with(compact('num_majors', 'num_students', 'num_faculty'));
 	}
 
 
@@ -62,6 +64,22 @@ class DataImportController extends Controller
                 }
 
             }
+            elseif ($request->category == 'faculty')
+            {
+                $success = $this->importFaculty($file);
+
+                if($success)
+                {
+                    Flash::success('Data imported successfully');
+                    return redirect(route('admin.ctFaculties.index'));
+                }
+                else
+                {
+                    Flash::error('Data not imported for some reason; please try again later');
+                    return redirect(route('admin.dataImport.index'));
+                }
+
+            }
 		}
 		else
 		{
@@ -94,7 +112,7 @@ class DataImportController extends Controller
 		$excel = App::make('excel');
 		$success = TRUE;
 		$cnt = 0;
-		$excel->filter('chunk')->load($csv_file)->chunk(50, function($reader) use (&$success, &$cnt){
+		$excel->filter('chunk')->load($csv_file)->chunk(25, function($reader) use (&$success, &$cnt){
 
 		    DB::beginTransaction();
 		    try
@@ -126,7 +144,7 @@ class DataImportController extends Controller
     {
         $excel = App::make('excel');
         $success = TRUE;
-        $excel->filter('chunk')->load($csv_file)->chunk(100, function($reader) use (&$success){
+        $excel->filter('chunk')->load($csv_file)->chunk(25, function($reader) use (&$success){
 
             DB::beginTransaction();
             try
@@ -134,6 +152,34 @@ class DataImportController extends Controller
                 foreach($reader->toArray() as $row)
                 {
                     $this->importOneMajor($row);
+                }
+
+                DB::commit();
+            }
+            catch (\Exception $e)
+            {
+                dd($e);
+                DB::rollback();
+                $success = FALSE;
+            }
+        });
+
+        return $success;
+    }
+
+
+    private function importFaculty($csv_file)
+    {
+        $excel = App::make('excel');
+        $success = TRUE;
+        $excel->filter('chunk')->load($csv_file)->chunk(25, function($reader) use (&$success){
+
+            DB::beginTransaction();
+            try
+            {
+                foreach($reader->toArray() as $row)
+                {
+                    $this->importOneFaculty($row);
                 }
 
                 DB::commit();
@@ -172,50 +218,53 @@ class DataImportController extends Controller
         }
 
 
+        $contact = $contact->where('iu_username', 'LIKE', strtolower($row['iu_username']))->first();
 
-        if($contact->where('iu_username', strtolower($row['iu_username']))->count() == 0)
+        if(!$contact)
         {
-
             $contact_data = [
-                "first_name" => strtolower($row['first_name']),
-                "last_name" => strtolower($row['last_name']),
-                "email" => strtolower($row['email']),
-                "iu_username" => strtolower($row['iu_username']),
-                "gender" => strtolower($row['gender']),
+                "first_name" => $row['first_name'],
+                "last_name" => $row['last_name'],
+                "email" => $row['email'],
+                "iu_username" => $row['iu_username'],
+                "gender" => $row['gender'],
                 "join_date" => '2017-06-21',
                 "is_active" => true,
                 "is_affiliate" => true,
                 "is_test" => false,
             ];
 
-            $contact = $contact->create($contact_data);
+            $contact = CtContact::create($contact_data);
+        }
 
+        $student = $student->where('contact_id', $contact->id)->first();
+
+        if(!$student)
+        {
             $student_data = [
                 "contact_id" => $contact->id,
-                "school" => strtolower($row['school']),
-                "academic_career" => strtolower($row['academic_career']),
-                "academic_standing" => strtolower($row['academic_standing']),
-                "ethnicity" => strtolower($row['ethnicity']),
+                "school" => $row['school'],
+                "academic_career" => $row['academic_career'],
+                "academic_standing" => $row['academic_standing'],
+                "ethnicity" => $row['ethnicity'],
             ];
 
-            $student = $student->create($student_data);
+            $student = CtStudent::create($student_data);
+        }
 
-            foreach ($majors_array as $value)
+        foreach ($majors_array as $value)
+        {
+            $major = CtMajor::where('major', 'LIKE', strtolower($value))->first();
+
+            if(!$major)
             {
-                $major = CtMajor::where('major', strtolower($value))->first();
-
-                if(!$major)
-                {
-                    //insert new major
-                    $major = CtMajor::create([
-                        'major' => strtolower($value),
-                    ]);
-
-                }
-                $student->majors()->attach($major->id);
-
+                //insert new major
+                $major = CtMajor::create([
+                    'major' => $value,
+                ]);
 
             }
+            $student->majors()->attach($major->id);
 
 
         }
@@ -226,14 +275,66 @@ class DataImportController extends Controller
     {
         $major = new CtMajor();
 
-        if($major->where('major', strtolower($row['major']))->count() == 0)
+        $major = $major->where('major', 'LIKE', strtolower($row['major']))->first();
+
+        if(!$major)
         {
             $data = [
                 'major' => strtolower($row['major']),
                 'type' => strtolower($row['type']),
             ];
 
-            $major->create($data);
+            $major = CtMajor::create($data);
         }
+
+    }
+
+
+    private function importOneFaculty($row = [])
+    {
+        $contact = new CtContact();
+        $faculty = new CtFaculty();
+
+
+        $contact = $contact->where('iu_username', 'LIKE', strtolower($row['iu_username']))->first();
+
+        if(!$contact)
+        {
+            $contact_data = [
+                "first_name" => $row['first_name'],
+                "last_name" => $row['last_name'],
+                "email" => $row['email'],
+                "iu_username" => $row['iu_username'],
+                "gender" => $row['gender'],
+                "join_date" => $row['join_date'],
+                "is_active" => true,
+                "is_affiliate" => true,
+                "is_test" => false,
+            ];
+
+            $contact = CtContact::create($contact_data);
+        }
+
+        $faculty = $faculty->where('contact_id', $contact->id)->first();
+
+        if(!$faculty)
+        {
+            $faculty_data = [
+                "contact_id" => $contact->id,
+                "rank" => $row['rank'],
+                "administrative_title" => $row['administrative_title'],
+                "school" => $row['school'],
+                "school_code" => $row['school_code'],
+                "department" => $row['department'],
+                "department_code" => $row['department_code'],
+                "campus_code" => $row['campus_code'],
+                "stem" => $row['stem'],
+                "campus_phone" => $row['campus_phone'],
+            ];
+            $faculty = CtFaculty::create($faculty_data);
+        }
+
+        unset($contact);
+        unset($faculty);
     }
 }

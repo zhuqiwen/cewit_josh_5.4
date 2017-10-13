@@ -4,7 +4,7 @@
     {{ csrf_field() }}
     <!-- File Upload -->
     <div class="form-group">
-        <div class="col-md-9">
+        <div class="col-md-12">
             <div class="fileinput fileinput-new input-group" data-provides="fileinput">
                 <div class="form-control" data-trigger="fileinput">
                     <i class="glyphicon glyphicon-file fileinput-exists"></i>
@@ -19,7 +19,7 @@
             </div>
         </div>
         <!-- Form actions -->
-        <div class="col-md-3 text-right">
+        <div class="col-md-12 text-right">
             <button type="submit" class="btn btn-responsive btn-primary btn-sm">Submit</button>
         </div>
     </div>
