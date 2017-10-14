@@ -40,8 +40,10 @@
         </div>
         <div class="navbar-right">
             <ul class="nav navbar-nav">
+                @if(env('APP_DEBUG'))
                 @include('admin.layouts._messages')
                 @include('admin.layouts._notifications')
+                @endif
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         @if(Sentinel::getUser()->pic)
