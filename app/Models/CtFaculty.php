@@ -25,7 +25,7 @@ class CtFaculty extends Model
         'department',
         'department_code',
         'campus_code',
-        'sTEM',
+        'stem',
         'campus_phone',
         'contact_id'
     ];
@@ -43,7 +43,7 @@ class CtFaculty extends Model
         'department' => 'string',
         'department_code' => 'string',
         'campus_code' => 'string',
-        'sTEM' => 'boolean',
+        'stem' => 'string',
         'campus_phone' => 'string',
         'contact_id' => 'integer'
     ];

@@ -18,10 +18,19 @@ class CtFacultyController extends InfyOmBaseController
 {
     /** @var  CtFacultyRepository */
     private $ctFacultyRepository;
+    private $ranks;
+    private $administrative_titles;
+    private $schools;
+    private $departments;
 
     public function __construct(CtFacultyRepository $ctFacultyRepo)
     {
         $this->ctFacultyRepository = $ctFacultyRepo;
+        $this->schools = $this->getDistinct('CtFaculty', 'school');
+        $this->ranks = $this->getDistinct('CtFaculty', 'rank');
+        $this->departments = $this->getDistinct('CtFaculty', 'department');
+        $this->administrative_titles = $this->getDistinct('CtFaculty', 'administrative_title');
+
     }
 
     /**
@@ -34,9 +43,17 @@ class CtFacultyController extends InfyOmBaseController
     {
 
         $this->ctFacultyRepository->pushCriteria(new RequestCriteria($request));
-        $ctFaculties = $this->ctFacultyRepository->all();
+
+        $ctFaculties = $this->ctFacultyRepository
+            ->with('contact')
+            ->paginate(config('constants.records_per_page.default'));
+
         return view('admin.ctFaculties.index')
-            ->with('ctFaculties', $ctFaculties);
+            ->with('ctFaculties', $ctFaculties)
+            ->with('schools', $this->schools)
+            ->with('ranks', $this->ranks)
+            ->with('departments', $this->departments)
+            ->with('administrative_titles', $this->administrative_titles);
     }
 
     /**
@@ -141,22 +158,156 @@ class CtFacultyController extends InfyOmBaseController
      *
      * @return Response
      */
-      public function getModalDelete($id = null)
-      {
-          $error = '';
-          $model = '';
-          $confirm_route =  route('admin.ctFaculties.delete',['id'=>$id]);
-          return View('admin.layouts/modal_confirmation', compact('error','model', 'confirm_route'));
+    public function getModalDelete($id = null)
+    {
+      $error = '';
+      $model = '';
+      $confirm_route =  route('admin.ctFaculties.delete',['id'=>$id]);
+      return View('admin.layouts/modal_confirmation', compact('error','model', 'confirm_route'));
 
-      }
+    }
 
-       public function getDelete($id = null)
-       {
-           $sample = CtFaculty::destroy($id);
+    public function getDelete($id = null)
+    {
+       $sample = CtFaculty::destroy($id);
 
-           // Redirect to the group management page
-           return redirect(route('admin.ctFaculties.index'))->with('success', Lang::get('message.success.delete'));
+       // Redirect to the group management page
+       return redirect(route('admin.ctFaculties.index'))->with('success', Lang::get('message.success.delete'));
 
-       }
+    }
+
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function filter(Request $request)
+    {
+        $query = CtFaculty::with('contact');
+
+        //contact relationship
+        if($request->has('first_name'))
+        {
+            $query->whereHas('contact', function ($q) use($request){
+                return $q->where('first_name', 'LIKE', '%' . $request->first_name . '%');
+            });
+        }
+
+        if($request->has('last_name'))
+        {
+            $query->whereHas('contact', function ($q) use($request){
+                return $q->where('last_name', 'LIKE', '%' . $request->last_name . '%');
+            });
+        }
+
+        if($request->has('gender'))
+        {
+            $query->whereHas('contact', function ($q) use($request){
+                return $q->where('gender', 'LIKE', '%' . $request->gender . '%');
+            });
+        }
+
+        if($request->has('email'))
+        {
+            $query->whereHas('contact', function ($q) use($request){
+                return $q->where('email', 'LIKE', '%' . $request->email . '%');
+            });
+        }
+
+        if($request->has('iu_username'))
+        {
+            $query->whereHas('contact', function ($q) use($request){
+                return $q->where('iu_username', 'LIKE', '%' . $request->iu_username . '%');
+            });
+        }
+
+        if($request->has('join_date'))
+        {
+            $query->whereHas('contact', function ($q) use($request){
+                return $q->where('join_date', $request->join_date);
+            });
+        }
+
+        //End contact relationship
+
+
+        if($request->has('school'))
+        {
+            $query->where('school', 'like', $request->school);
+        }
+
+        if($request->has('rank'))
+        {
+            $query->where('rank', 'like', $request->rank);
+
+        }
+
+        if($request->has('administrative_title'))
+        {
+            $query->where('administrative_title', 'like', $request->administrative_title);
+
+        }
+
+        if($request->has('department'))
+        {
+            $query->where('department', 'like', $request->department);
+
+        }
+
+        if($request->has('stem'))
+        {
+            if($request->stem == 'unknown')
+            {
+                $query->whereNull('stem');
+
+            }
+            else
+            {
+                $query->where('stem', 'like', $request->stem);
+
+            }
+
+        }
+
+
+
+        $ctFaculties = $query->paginate(config('constants.records_per_page.default'));
+
+
+        return view('admin.ctFaculties.index')
+            ->with('ctFaculties', $ctFaculties)
+            ->with('schools', $this->schools)
+            ->with('ranks', $this->ranks)
+            ->with('departments', $this->departments)
+            ->with('administrative_titles', $this->administrative_titles);
+
+    }
+
+
+
+    /**
+     * helpers
+     */
+
+    /**
+     * @param string $model, string $field
+     * @return array
+     */
+    private function getDistinct($model, $field)
+    {
+        $model = 'App\Models'.'\\'.$model;
+        $model = new $model();
+        $objs = $model->select($field)->distinct()->orderBy($field, 'asc')->get()->toArray();
+        $results = [];
+        foreach ($objs as $obj)
+        {
+            $results[$obj[$field]] = $obj[$field];
+        }
+        return $results;
+    }
+
+
+
+
 
 }

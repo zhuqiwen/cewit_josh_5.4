@@ -45,7 +45,7 @@ class CtStudentController extends InfyOmBaseController
      * @param Request $request
      * @return Response
      */
-    public function index(Request $request, Builder $htmlBuilder)
+    public function index(Request $request)
     {
         $this->ctStudentRepository->pushCriteria(new RequestCriteria($request));
 //        $ctStudents = $this->ctStudentRepository->all();

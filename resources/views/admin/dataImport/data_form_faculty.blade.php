@@ -1,5 +1,5 @@
 <form class="form-horizontal" action="{{route('admin.dataImport')}}" method="post" enctype="multipart/form-data">
-    {!! Form::hidden('category', 'major') !!}
+    {!! Form::hidden('category', 'faculty') !!}
     <!-- CSRF Token -->
     {{ csrf_field() }}
     <!-- File Upload -->
@@ -11,7 +11,7 @@
                     <span class="fileinput-filename"></span>
                 </div>
                 <span class="input-group-addon btn btn-default btn-file">
-                                                        <span class="fileinput-new">Select Major data file</span>
+                                                        <span class="fileinput-new">Select faculty data file</span>
                                                         <span class="fileinput-exists">Change</span>
                                                         <input type="file" name="data-file" />
                                             </span>

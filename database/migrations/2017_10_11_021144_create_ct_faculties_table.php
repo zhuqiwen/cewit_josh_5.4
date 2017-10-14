@@ -22,7 +22,7 @@ class CreateCtFacultiesTable extends Migration
             $table->string('department')->nullable();
             $table->string('department_code')->nullable();
             $table->string('campus_code')->nullable();
-            $table->boolean('sTEM')->default(0);
+            $table->string('stem')->nullable();
             $table->string('campus_phone')->nullable();
             $table->integer('contact_id')->nullable();
             $table->timestamps();
