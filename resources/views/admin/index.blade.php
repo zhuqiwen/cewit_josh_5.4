@@ -2,8 +2,8 @@
 
 {{-- Page title --}}
 @section('title')
-    Josh Admin Template
-    @parent
+CEWiT IIS
+@parent
 @stop
 
 {{-- page level styles --}}
