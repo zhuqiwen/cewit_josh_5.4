@@ -2,7 +2,7 @@
 
 {{-- Page title --}}
 @section('title')
-CEWiT IIS
+Dashboard
 @parent
 @stop
 
