@@ -48,7 +48,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         @if(Sentinel::getUser()->pic)
                             {{--this is an ugly fix for the path-with-index.php-problem temporarily --}}
-                            <img src="{!! url('/').'../uploads/users/'.Sentinel::getUser()->pic !!}" alt="img" height="35px" width="35px"
+                            <img src="{!! url('/').'/../uploads/users/'.Sentinel::getUser()->pic !!}" alt="img" height="35px" width="35px"
                                  class="img-circle img-responsive pull-left"/>
                         @else
                             <img src="{!! asset('assets/img/authors/avatar3.jpg') !!} " width="35"
