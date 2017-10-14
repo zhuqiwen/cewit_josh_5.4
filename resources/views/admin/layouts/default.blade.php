@@ -112,6 +112,7 @@
     <aside class="left-side sidebar-offcanvas">
         <section class="sidebar ">
             <div class="page-sidebar  sidebar-nav">
+                @if(env('APP_DEBUG'))
                 <div class="nav_icons">
                     <ul class="sidebar_threeicons">
                         <li>
@@ -141,6 +142,7 @@
                     </ul>
                 </div>
                 <div class="clearfix"></div>
+                @endif
                 <!-- BEGIN SIDEBAR MENU -->
                 @include('admin.layouts._left_menu')
                 <!-- END SIDEBAR MENU -->
