@@ -1,3 +1,4 @@
+@if(env('APP_DEBUG'))
 <li class="{{ Request::is('ctContacts*') ? 'active' : '' }}">
     <a href="{!! route('admin.ctContacts.index') !!}">
     <i class="livicon" data-c="#EF6F6C" data-hc="#EF6F6C" data-name="$ICON_NAME$" data-size="18"
@@ -5,6 +6,7 @@
                CtContacts
     </a>
 </li>
+@endif
 
 <li class="{{ Request::is('ctStudents*') ? 'active' : '' }}">
     <a href="{!! route('admin.ctStudents.index') !!}">
@@ -30,6 +32,7 @@
     </a>
 </li>
 
+@if(env('APP_DEBUG'))
 <li class="{{ Request::is('ctStudentMajors*') ? 'active' : '' }}">
     <a href="{!! route('admin.ctStudentMajors.index') !!}">
     <i class="livicon" data-c="#EF6F6C" data-hc="#EF6F6C" data-name="$ICON_NAME$" data-size="18"
@@ -37,7 +40,7 @@
                CtStudentMajors
     </a>
 </li>
-
+@endif
 <li class="{{ Route::is('admin.dataImport*') ? 'active' : '' }}">
     <a href="{!! route('admin.dataImport.index') !!}">
         <i class="livicon" data-c="#EF6F6C" data-hc="#EF6F6C" data-name="$ICON_NAME$" data-size="18"
