@@ -27,6 +27,9 @@ CtMajors
             <div class="panel-heading clearfix">
                 <h4 class="panel-title pull-left"> <i class="livicon" data-name="list-ul" data-size="16" data-loop="true" data-c="#fff" data-hc="white"></i>
                     CtMajors List
+                    <span>
+                        found: {{$ctMajors->total()}} records
+                    </span>
                 </h4>
                 <div class="pull-right">
                     <a href="{{ route('admin.ctMajors.create') }}" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span> @lang('button.create')</a>
@@ -34,9 +37,17 @@ CtMajors
             </div>
             <br />
             <div class="panel-body table-responsive">
-                {{$ctMajors->links()}}
+                <div class="row">
+                    <div class="col-md-12" id="filter-div">
+                        @include('admin.ctMajors.filter')
+                    </div>
+                </div>
+                <div style="text-align: center">
+                    {{$ctMajors->appends(Request::except(['page', '_token']))->links()}}
+
+                </div>
                  @include('admin.ctMajors.table')
-                 
+
             </div>
         </div>
  </div>

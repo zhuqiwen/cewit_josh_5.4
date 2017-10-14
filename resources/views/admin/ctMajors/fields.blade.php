@@ -7,7 +7,7 @@
 <!-- Type Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('type', 'Type:') !!}
-    {!! Form::select('type', ['Type' => 'Type'], null, ['class' => 'form-control']) !!}
+    {!! Form::select('type', ['stem' => 'STEM', 'non-stem' => 'Non STEM'], null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->

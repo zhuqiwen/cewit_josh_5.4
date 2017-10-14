@@ -119,7 +119,7 @@ class CtMajorController extends InfyOmBaseController
     {
         $ctMajor = $this->ctMajorRepository->findWithoutFail($id);
 
-        
+
 
         if (empty($ctMajor)) {
             Flash::error('CtMajor not found');
@@ -158,5 +158,37 @@ class CtMajorController extends InfyOmBaseController
            return redirect(route('admin.ctMajors.index'))->with('success', Lang::get('message.success.delete'));
 
        }
+
+
+	public function filter(Request $request)
+	{
+		$query = CtMajor::query();
+
+		//contact relationship
+		if($request->has('major'))
+		{
+			$query->where('major', 'LIKE', '%'. $request->major .'%');
+
+		}
+
+		if($request->has('type'))
+		{
+			if($request->major == 'unknown')
+			{
+				$query->whereNull('type');
+			}
+			else
+			{
+				$query->where('type', $request->type);
+			}
+		}
+
+		$ctMajors = $query->paginate(config('constants.records_per_page.default'));
+
+
+		return view('admin.ctMajors.index')
+			->with(compact('ctMajors'));
+
+	}
 
 }
