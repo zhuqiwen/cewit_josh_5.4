@@ -32,7 +32,11 @@ CtFaculties
                     </span>
                 </h4>
                 <div class="pull-right">
+                    @if(env('APP_DEBUG'))
                     <a href="{{ route('admin.ctFaculties.create') }}" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span> @lang('button.create')</a>
+                    @else
+                    <a href="{{ route('admin.ctFaculties.create') }}" class="btn btn-sm btn-default" disabled="true"><span class="glyphicon glyphicon-plus"></span> @lang('button.create')</a>
+                    @endif
                 </div>
             </div>
             <div class="panel-body table-responsive">
@@ -46,7 +50,7 @@ CtFaculties
                     {{$ctFaculties->appends(Request::except(['page', '_token']))->links()}}
                 </div>
                  @include('admin.ctFaculties.table')
-                 
+
             </div>
         </div>
  </div>
