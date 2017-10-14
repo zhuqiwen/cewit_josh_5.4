@@ -1,8 +1,4 @@
-<!-- Contact Id Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('contact_id', 'Contact Id:') !!}
-    {!! Form::number('contact_id', null, ['class' => 'form-control']) !!}
-</div>
+
 
 <!-- School Field -->
 <div class="form-group col-sm-12">

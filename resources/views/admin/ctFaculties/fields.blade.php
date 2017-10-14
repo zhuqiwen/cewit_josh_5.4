@@ -54,11 +54,7 @@
     {!! Form::text('campus_phone', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Contact Id Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('contact_id', 'Contact Id:') !!}
-    {!! Form::number('contact_id', null, ['class' => 'form-control']) !!}
-</div>
+
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12 text-center">
