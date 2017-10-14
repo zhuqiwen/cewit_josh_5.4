@@ -67,7 +67,7 @@
                         <!-- User image -->
                         <li class="user-header bg-light-blue">
                             @if(Sentinel::getUser()->pic)
-                                <img src="{!! url('/').'/uploads/users/'.Sentinel::getUser()->pic !!}" alt="img"
+                                <img src="{!! url('/').'/../uploads/users/'.Sentinel::getUser()->pic !!}" alt="img"
                                      class="img-circle img-bor"/>
                             @else
                                 <img src="{!! asset('assets/img/authors/avatar3.jpg') !!}"
