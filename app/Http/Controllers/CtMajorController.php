@@ -173,7 +173,7 @@ class CtMajorController extends InfyOmBaseController
 
 		if($request->has('type'))
 		{
-			if($request->major == 'unknown')
+			if($request->type == 'unknown')
 			{
 				$query->whereNull('type');
 			}
