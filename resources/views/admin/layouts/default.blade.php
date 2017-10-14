@@ -76,12 +76,14 @@
                             <p class="topprofiletext">{{ Sentinel::getUser()->first_name }} {{ Sentinel::getUser()->last_name }}</p>
                         </li>
                         <!-- Menu Body -->
+                        @if(env('APP_DEBUG'))
                         <li>
                             <a href="{{ URL::route('admin.users.show',Sentinel::getUser()->id) }}">
                                 <i class="livicon" data-name="user" data-s="18"></i>
                                 My Profile
                             </a>
                         </li>
+                        @endif
                         <li role="presentation"></li>
                         <li>
                             <a href="{{ route('admin.users.edit', Sentinel::getUser()->id) }}">
@@ -91,12 +93,14 @@
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
+                            @if(env('APP_DEBUG'))
                             <div class="pull-left">
                                 <a href="{{ URL::route('lockscreen',Sentinel::getUser()->id) }}">
                                     <i class="livicon" data-name="lock" data-size="16" data-c="#555555" data-hc="#555555" data-loop="true"></i>
                                     Lock
                                 </a>
                             </div>
+                            @endif
                             <div class="pull-right">
                                 <a href="{{ URL::to('admin/logout') }}">
                                     <i class="livicon" data-name="sign-out" data-s="18"></i>
