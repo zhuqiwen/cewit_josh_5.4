@@ -24,7 +24,7 @@
 @section('content')
 
     <section class="content-header">
-        <h1>Welcome to Dashboard</h1>
+        <h1>Welcome to Dashboard <small>More Functionalities are on their way</small></h1>
         <ol class="breadcrumb">
             <li class="active">
                 <a href="#">
@@ -219,6 +219,19 @@
 
 
 
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Notice</h4>
+                    </div>
+                    <div class="panel-body">
+                        @include('admin.dashboard.notice')
+                    </div>
+                </div>
+            </div>
         </div>
         <!--/row-->
         @if(env('APP_DEBUG'))
