@@ -305,7 +305,7 @@ class DataImportController extends Controller
                 "last_name" => $row['last_name'],
                 "email" => $row['email'],
                 "iu_username" => $row['iu_username'],
-                "gender" => $row['gender'],
+                "gender" => strtolower($row['gender']) == 'w' ? 'f' : $row['gender'],
                 "join_date" => $row['join_date'],
                 "is_active" => true,
                 "is_affiliate" => true,

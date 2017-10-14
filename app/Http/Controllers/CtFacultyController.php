@@ -136,7 +136,7 @@ class CtFacultyController extends InfyOmBaseController
     {
         $ctFaculty = $this->ctFacultyRepository->findWithoutFail($id);
 
-        
+
 
         if (empty($ctFaculty)) {
             Flash::error('CtFaculty not found');
@@ -203,6 +203,11 @@ class CtFacultyController extends InfyOmBaseController
         if($request->has('gender'))
         {
             $query->whereHas('contact', function ($q) use($request){
+	            if($request->gender == 'unknown')
+	            {
+		            return $q->whereNull('gender');
+
+	            }
                 return $q->where('gender', 'LIKE', '%' . $request->gender . '%');
             });
         }

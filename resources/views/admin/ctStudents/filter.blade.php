@@ -22,7 +22,7 @@
 <!-- Gender -->
 <div class="form-group col-md-2 col-sm-6">
     {!! Form::label('gender', 'Gender:') !!}
-    {!! Form::select('gender', ['m' => 'Male', 'f' => 'Female', 'u' => 'Unknown'], null, ['class' => 'form-control', 'placeholder' => 'Gender']) !!}
+    {!! Form::select('gender', ['m' => 'Male', 'f' => 'Female', 'unknown' => 'Unknown'], null, ['class' => 'form-control', 'placeholder' => 'Gender']) !!}
 </div>
 
 <!-- IU Account -->
