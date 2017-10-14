@@ -5,5 +5,5 @@ $(document).ready(function () {
 
 
 $('#no-access-import-data').on('hidden.bs.modal', function (e) {
-    window.history.back();
+    // window.history.back();
 })
