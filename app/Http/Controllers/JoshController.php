@@ -1,4 +1,6 @@
 <?php namespace App\Http\Controllers;
+use App\Models\CtFaculty;
+use App\Models\CtStudent;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\MessageBag;
 use Securimage;
@@ -290,7 +292,11 @@ class JoshController extends Controller {
     public function showHome()
     {
     	if(Sentinel::check())
-			return view('admin.index');
+	    {
+		    $num_students = CtStudent::count();
+		    $num_faculties = CtFaculty::count();
+		    return view('admin.index')->with(compact('num_students', 'num_faculties'));
+	    }
 		else
 			return redirect('admin/signin')->with('error', 'You must be logged in!');
     }
