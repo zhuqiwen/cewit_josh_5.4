@@ -205,6 +205,13 @@ return [
 	    Maatwebsite\Excel\ExcelServiceProvider::class,
 
 
+	    /*
+	     * UI Helpers
+	     */
+	    App\Providers\UiHelperServiceProvider::class,
+
+
+
     ],
 
     /*
@@ -266,6 +273,12 @@ return [
         'Flash'     => Laracasts\Flash\Flash::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+
+
+	    /*
+	     * UI Helpers
+	     */
+	    'UiContainers' => App\UiHelpers\containers::class
 
 
 

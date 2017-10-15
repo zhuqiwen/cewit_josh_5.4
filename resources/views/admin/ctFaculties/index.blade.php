@@ -49,10 +49,23 @@ CtFaculties
                 <div style="text-align: center">
                     {{$ctFaculties->appends(Request::except(['page', '_token']))->links()}}
                 </div>
+{{--                 @include('admin.ctFaculties.table')--}}
                  @include('admin.ctFaculties.table')
 
             </div>
         </div>
  </div>
 </section>
+@stop
+
+{{-- page level scripts --}}
+@section('footer_scripts')
+    <div class="modal fade" id="delete_confirm" tabindex="-1" role="dialog" aria-labelledby="user_delete_confirm_title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+    <script>$(function () {$('body').on('hidden.bs.modal', '.modal', function () {$(this).removeData('bs.modal');});});</script>
+    <script src="{{ asset('assets/js/ct_faculty/index.js') }}" ></script>
 @stop
