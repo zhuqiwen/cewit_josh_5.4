@@ -18,7 +18,7 @@
     </thead>
     <tbody>
     @foreach($ctStudents as $ctStudent)
-        <tr>
+        <tr class="parent_row">
             @include('admin.common.arrow_to_display_child_row')
             <td>{!! $ctStudent->contact_id !!}</td>
             <td>{!! $ctStudent->contact->first_name !!}</td>
