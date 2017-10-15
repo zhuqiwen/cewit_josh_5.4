@@ -2,7 +2,7 @@
     Hi {{Sentinel::getUser()->first_name}},
 </p>
 <p>
-    <strong>Thanks for your support, without which this web app of our database would not be working here. Sincerely thank you!</strong>
+    <strong>Thanks for your support all the time, without which this web app of our database would not be working here. Sincerely thank you!</strong>
 </p>
 <p>
     Since so far we only have data of student and faculty members, this app, for now, has 3 major functionalities:
