@@ -27,7 +27,8 @@
 <ol>
     <li>1, A Data Visualization (Charts) Wizard that will enable you to customize your charts,</li>
     <li>2, CEWiT Event Tracker, which is dependent our event data that hopefully I can have soon,</li>
-    <li>3, And multiple Data Exporters to export filtered or all data into CSV or other formats,</li>
+    <li>3, multiple Data Exporters to export filtered or all data into CSV or other formats,</li>
+    <li>4, And etc.</li>
 </ol>
 </p>
 
