@@ -14,10 +14,7 @@
     <tbody>
     @foreach($ctFaculties as $ctFaculty)
         <tr class="parent_row">
-            <td class="caret-more-details" style="width: 2%">
-                <i class="livicon" data-name="caret-right" data-size="20" data-color="#000"></i>
-                <i class="livicon" data-name="caret-down" data-size="20" data-color="#000" style="display: none;"></i>
-            </td>
+            @include('admin.common.arrow_to_display_child_row')
             <td>{!! $ctFaculty->contact->first_name !!} {!! $ctFaculty->contact->last_name !!}</td>
             <td>{!! $ctFaculty->contact->email!!}</td>
             <td>{!! $ctFaculty->contact->gender !!}</td>
@@ -42,3 +39,17 @@
     @endforeach
     </tbody>
 </table>
+
+@section('footer_scripts')
+    <div class="modal fade" id="delete_confirm" tabindex="-1" role="dialog" aria-labelledby="user_delete_confirm_title" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+    <script>$(function () {$('body').on('hidden.bs.modal', '.modal', function () {$(this).removeData('bs.modal');});});</script>
+
+    <script src="{{ asset('assets/js/common/child_row.js') }}" ></script>
+
+    <script src="{{ asset('assets/js/ct_faculty/index.js') }}" ></script>
+@stop
