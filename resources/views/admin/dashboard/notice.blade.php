@@ -1,5 +1,5 @@
 <p>
-    Hi Jenny and Jennifer,
+    Hi {{Sentinel::getUser()->first_name}},
 </p>
 <p>
     <strong>Thanks for your support, without which this web app of our database would not be working here. Sincerely thank you!</strong>
