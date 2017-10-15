@@ -5,7 +5,7 @@
 
                 $contents = [
                     'ethnicity' => [
-                            'title' => 'Rank',
+                            'title' => 'Ethnicity',
                             'content' => $ctStudent->ethnicity,
                     ],
                     'school' => [
