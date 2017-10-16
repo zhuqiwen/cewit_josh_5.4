@@ -196,8 +196,8 @@ Route::post('contact',array('as' => 'contact','uses' => 'FrontEndController@post
 
 #frontend views
 Route::get('/', array('as' => 'home', function () {
-//    return View::make('index');
-    return redirect(route('admin.dashboard'));
+
+    return redirect(url('/admin'));
 }));
 
 Route::get('blog', array('as' => 'blog', 'uses' => 'FrontendBlogController@index'));
