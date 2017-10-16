@@ -32,6 +32,10 @@ CtStudents
                     <span>
                         found: {{$ctStudents->total()}} records
                     </span>
+                    @include('admin.ctStudents.export_button')
+                    <span>
+                        <button form="export_form">Export to CSV</button>
+                    </span>
                 </h4>
 
                 <div class="pull-right">

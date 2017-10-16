@@ -23,6 +23,7 @@ Route::group(array('prefix' => 'admin/', 'middleware' => 'admin','as'=>'admin.')
 Route::get('ctStudents', ['as'=> 'ctStudents.index', 'uses' => 'CtStudentController@index']);
 Route::post('ctStudents', ['as'=> 'ctStudents.store', 'uses' => 'CtStudentController@store']);
 Route::get('ctStudents/filter', ['as'=> 'ctStudents.filter', 'uses' => 'CtStudentController@filter']);
+Route::get('ctStudents/export/{type}', ['as'=> 'ctStudents.export', 'uses' => 'CtStudentController@export']);
 Route::get('ctStudents/create', ['as'=> 'ctStudents.create', 'uses' => 'CtStudentController@create']);
 Route::put('ctStudents/{ctStudents}', ['as'=> 'ctStudents.update', 'uses' => 'CtStudentController@update']);
 Route::patch('ctStudents/{ctStudents}', ['as'=> 'ctStudents.update', 'uses' => 'CtStudentController@update']);
