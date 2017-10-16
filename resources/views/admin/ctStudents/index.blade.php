@@ -23,7 +23,7 @@ CtStudents
 <section class="content paddingleft_right15">
     <div class="row">
      @include('flash::message')
-
+        @include('admin.ctStudents.export_form')
 
         <div class="panel panel-primary ">
             <div class="panel-heading clearfix">
@@ -32,10 +32,7 @@ CtStudents
                     <span>
                         found: {{$ctStudents->total()}} records
                     </span>
-                    @include('admin.ctStudents.export_button')
-                    <span>
-                        <button form="export_form">Export to CSV</button>
-                    </span>
+                    @include('admin.ctStudents.export_button_csv')
                 </h4>
 
                 <div class="pull-right">
