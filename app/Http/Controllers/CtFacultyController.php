@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use App\Models\CtFaculty;
 use Flash;
+use Maatwebsite\Excel\Facades\Excel;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Response;
 
@@ -183,98 +184,7 @@ class CtFacultyController extends InfyOmBaseController
      */
     public function filter(Request $request)
     {
-        $query = CtFaculty::with('contact');
-
-        //contact relationship
-        if($request->has('first_name'))
-        {
-            $query->whereHas('contact', function ($q) use($request){
-                return $q->where('first_name', 'LIKE', '%' . $request->first_name . '%');
-            });
-        }
-
-        if($request->has('last_name'))
-        {
-            $query->whereHas('contact', function ($q) use($request){
-                return $q->where('last_name', 'LIKE', '%' . $request->last_name . '%');
-            });
-        }
-
-        if($request->has('gender'))
-        {
-            $query->whereHas('contact', function ($q) use($request){
-	            if($request->gender == 'unknown')
-	            {
-		            return $q->whereNull('gender');
-
-	            }
-                return $q->where('gender', 'LIKE', '%' . $request->gender . '%');
-            });
-        }
-
-        if($request->has('email'))
-        {
-            $query->whereHas('contact', function ($q) use($request){
-                return $q->where('email', 'LIKE', '%' . $request->email . '%');
-            });
-        }
-
-        if($request->has('iu_username'))
-        {
-            $query->whereHas('contact', function ($q) use($request){
-                return $q->where('iu_username', 'LIKE', '%' . $request->iu_username . '%');
-            });
-        }
-
-        if($request->has('join_date'))
-        {
-            $query->whereHas('contact', function ($q) use($request){
-                return $q->where('join_date', $request->join_date);
-            });
-        }
-
-        //End contact relationship
-
-
-        if($request->has('school'))
-        {
-            $query->where('school', 'like', $request->school);
-        }
-
-        if($request->has('rank'))
-        {
-            $query->where('rank', 'like', $request->rank);
-
-        }
-
-        if($request->has('administrative_title'))
-        {
-            $query->where('administrative_title', 'like', $request->administrative_title);
-
-        }
-
-        if($request->has('department'))
-        {
-            $query->where('department', 'like', $request->department);
-
-        }
-
-        if($request->has('stem'))
-        {
-            if($request->stem == 'unknown')
-            {
-                $query->whereNull('stem');
-
-            }
-            else
-            {
-                $query->where('stem', 'like', $request->stem);
-
-            }
-
-        }
-
-
+        $query = $this->getFilterQuery($request);
 
         $ctFaculties = $query->paginate(config('constants.records_per_page.default'));
 
@@ -288,6 +198,182 @@ class CtFacultyController extends InfyOmBaseController
 
     }
 
+
+    /**
+     *
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
+    private function getFilterQuery(Request $request)
+    {
+        $query = CtFaculty::with('contact');
+
+        if(!array_filter($request->all()))
+        {
+            return $query;
+        }
+
+        if($request->all() != [])
+        {
+            //contact relationship
+            if($request->has('first_name'))
+            {
+                $query->whereHas('contact', function ($q) use($request){
+                    return $q->where('first_name', 'LIKE', '%' . $request->first_name . '%');
+                });
+            }
+
+            if($request->has('last_name'))
+            {
+                $query->whereHas('contact', function ($q) use($request){
+                    return $q->where('last_name', 'LIKE', '%' . $request->last_name . '%');
+                });
+            }
+
+            if($request->has('gender'))
+            {
+                $query->whereHas('contact', function ($q) use($request){
+                    if($request->gender == 'unknown')
+                    {
+                        return $q->whereNull('gender');
+
+                    }
+                    return $q->where('gender', 'LIKE', '%' . $request->gender . '%');
+                });
+            }
+
+            if($request->has('email'))
+            {
+                $query->whereHas('contact', function ($q) use($request){
+                    return $q->where('email', 'LIKE', '%' . $request->email . '%');
+                });
+            }
+
+            if($request->has('iu_username'))
+            {
+                $query->whereHas('contact', function ($q) use($request){
+                    return $q->where('iu_username', 'LIKE', '%' . $request->iu_username . '%');
+                });
+            }
+
+            if($request->has('join_date'))
+            {
+                $query->whereHas('contact', function ($q) use($request){
+                    return $q->where('join_date', $request->join_date);
+                });
+            }
+
+            //End contact relationship
+
+
+            if($request->has('school'))
+            {
+                $query->where('school', 'like', $request->school);
+            }
+
+            if($request->has('rank'))
+            {
+                $query->where('rank', 'like', $request->rank);
+
+            }
+
+            if($request->has('administrative_title'))
+            {
+                $query->where('administrative_title', 'like', $request->administrative_title);
+
+            }
+
+            if($request->has('department'))
+            {
+                $query->where('department', 'like', $request->department);
+
+            }
+
+            if($request->has('stem'))
+            {
+                if($request->stem == 'unknown')
+                {
+                    $query->whereNull('stem');
+
+                }
+                else
+                {
+                    $query->where('stem', 'like', $request->stem);
+
+                }
+
+            }
+        }
+
+
+        return $query;
+    }
+
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function getFilteredData(Request $request)
+    {
+        //sqlite has max variable limit set to 999
+        //if no input value, need to chunk query
+
+        $query = $this->getFilterQuery($request);
+
+        $result = [];
+        $query->chunk(50, function($records) use (&$result){
+            foreach($records as $record)
+            {
+                $result[] = $record;
+            }
+        });
+
+        return collect($result);
+
+    }
+
+
+
+    public function export(Request $request, $export_type = 'csv')
+    {
+        $result = $this->getFilteredData($request);
+
+        $result = $result->toArray();
+        $data = [];
+        $excludes = [
+            'id',
+            'contact_id',
+            'created_at',
+            'updated_at',
+            'deleted_at',
+            'contact.id',
+            'contact.created_at',
+            'contact.updated_at',
+            'contact.deleted_at',
+            'contact.is_test',
+            'contact.is_active',
+            'contact.is_affiliate',
+        ];
+        foreach ($result as $value)
+        {
+            $value = collect($value)
+                ->except($excludes)
+                ->toArray();
+            $data[] = $this->flattenAndKeepKeys('', $value);
+        }
+
+        Excel::create('exported', function($excel) use ($data, $request){
+
+            $excel->sheet('exported', function($sheet) use ($data, $request){
+
+                $sheet->fromArray($data);
+
+            });
+
+        })->download($export_type);
+
+    }
 
 
     /**
@@ -312,6 +398,25 @@ class CtFacultyController extends InfyOmBaseController
     }
 
 
+    /**
+     * flatten multi dimension array and keep keys
+     * @param $prefix
+     * @param $array
+     * @return array
+     */
+    private function flattenAndKeepKeys($prefix, $array)
+    {
+        $result = [];
+        foreach ($array as $key => $value)
+        {
+            if (is_array($value))
+                $result = array_merge($result, $this->flattenAndKeepKeys($prefix . $key . '_', $value));
+            else
+                $result[$prefix . $key] = $value;
+        }
+        return $result;
+
+    }
 
 
 
