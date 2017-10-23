@@ -239,7 +239,7 @@ class CtStudentController extends InfyOmBaseController
                 $filename .= '_' . $key . '_' . $value;
             }
         }
-		Excel::create('exported', function($excel) use ($data, $request){
+		Excel::create($filename, function($excel) use ($data, $request){
 
 			$excel->sheet('exported', function($sheet) use ($data, $request){
 
