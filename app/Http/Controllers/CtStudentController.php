@@ -230,6 +230,15 @@ class CtStudentController extends InfyOmBaseController
 			$data[] = $this->flattenAndKeepKeys('', $value);
 		}
 
+        $filename = str_replace('App\Http\Controllers\Ct', 'CEWiT_',static::class);
+        $filename = str_replace('Controller', '', $filename);
+        foreach($request->except('_token') as $key => $value)
+        {
+            if($value)
+            {
+                $filename .= '_' . $key . '_' . $value;
+            }
+        }
 		Excel::create('exported', function($excel) use ($data, $request){
 
 			$excel->sheet('exported', function($sheet) use ($data, $request){
