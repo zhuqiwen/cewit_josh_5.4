@@ -232,6 +232,7 @@ class CtStudentController extends InfyOmBaseController
 
         $filename = str_replace('App\Http\Controllers\Ct', 'CEWiT_',static::class);
         $filename = str_replace('Controller', '', $filename);
+        $filename = date('Y-m-d') . '_' . $filename;
         foreach($request->except('_token') as $key => $value)
         {
             if($value)
