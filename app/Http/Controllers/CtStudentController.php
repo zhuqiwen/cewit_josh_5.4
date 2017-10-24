@@ -120,7 +120,9 @@ class CtStudentController extends InfyOmBaseController
      */
     public function edit($id)
     {
-        $ctStudent = $this->ctStudentRepository->findWithoutFail($id);
+        $ctStudent = $this->ctStudentRepository
+            ->with('contact')
+            ->findWithoutFail($id);
 
         if (empty($ctStudent)) {
             Flash::error('CtStudent not found');
@@ -202,6 +204,10 @@ class CtStudentController extends InfyOmBaseController
             ->with('ethnicities', $this->ethnicities);
     }
 
+    /**
+     * @param Request $request
+     * @param string $export_type
+     */
 	public function export(Request $request, $export_type = 'csv')
 	{
 		$result = $this->getFilteredData($request);
