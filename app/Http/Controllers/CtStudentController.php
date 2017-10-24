@@ -84,6 +84,8 @@ class CtStudentController extends InfyOmBaseController
     {
         $input = $request->all();
 
+        dd($input);
+
         $ctStudent = $this->ctStudentRepository->create($input);
 
         Flash::success('CtStudent saved successfully.');
