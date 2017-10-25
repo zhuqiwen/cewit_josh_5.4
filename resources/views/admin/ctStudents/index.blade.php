@@ -36,11 +36,7 @@ CtStudents
                 </h4>
 
                 <div class="pull-right">
-                    @if(env('APP_DEBUG'))
-                        <a href="{{ route('admin.ctStudents.create') }}" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span> @lang('button.create')</a>
-                    @else
-                        <a href="{{ route('admin.ctStudents.create') }}" class="btn btn-sm btn-default" disabled="true"><span class="glyphicon glyphicon-plus"></span> @lang('button.create')</a>
-                    @endif
+                    <a href="{{ route('admin.ctStudents.create') }}" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span> @lang('button.create')</a>
                 </div>
             </div>
             <div class="panel-body table-responsive">
