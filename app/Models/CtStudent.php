@@ -52,7 +52,14 @@ class CtStudent extends Model
      * @var array
      */
     public static $rules = [
-        'contact_id' => 'required'
+        'contact.first_name' => 'required',
+        'contact.last_name' => 'required',
+        'contact.email' => 'required|email',
+        'contact.gender' => 'required',
+        'contact.join_date' => 'required|date',
+        'contact.iu_username' => 'required',
+        'school' => 'required',
+        'ethnicity' => 'required',
     ];
 
 	/**

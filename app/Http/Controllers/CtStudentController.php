@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Http\Requests\CreateCtStudentRequest;
 use App\Http\Requests\UpdateCtStudentRequest;
+use App\Repositories\CtContactRepository;
 use App\Repositories\CtStudentRepository;
 use App\Http\Controllers\AppBaseController as InfyOmBaseController;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ class CtStudentController extends InfyOmBaseController
 {
     /** @var  CtStudentRepository */
     private $ctStudentRepository;
+    private $ctContactRepository;
 
     private $schools;
     private $academic_careers;
@@ -31,9 +33,10 @@ class CtStudentController extends InfyOmBaseController
 
 
 
-    public function __construct(CtStudentRepository $ctStudentRepo)
+    public function __construct(CtStudentRepository $ctStudentRepo, CtContactRepository $ctContactRepo)
     {
         $this->ctStudentRepository = $ctStudentRepo;
+        $this->ctContactRepository = $ctContactRepo;
         $this->schools = $this->getDistinct('CtStudent', 'school');
         $this->academic_careers = $this->getDistinct('CtStudent', 'academic_career');
         $this->academic_standings = $this->getDistinct('CtStudent', 'academic_standing');
@@ -70,7 +73,11 @@ class CtStudentController extends InfyOmBaseController
      */
     public function create()
     {
-        return view('admin.ctStudents.create');
+        return view('admin.ctStudents.create')
+            ->with('schools', $this->schools)
+            ->with('academic_standings', $this->academic_standings)
+            ->with('academic_careers', $this->academic_careers)
+            ->with('ethnicities', $this->ethnicities);
     }
 
     /**
@@ -84,8 +91,10 @@ class CtStudentController extends InfyOmBaseController
     {
         $input = $request->all();
 
-        dd($input);
+        $contact_data = $input['contact'];
 
+        $ctContact = $this->ctContactRepository->create($contact_data);
+        $input['contact_id'] = $ctContact->id;
         $ctStudent = $this->ctStudentRepository->create($input);
 
         Flash::success('CtStudent saved successfully.');
@@ -132,7 +141,12 @@ class CtStudentController extends InfyOmBaseController
             return redirect(route('admin.ctStudents.index'));
         }
 
-        return view('admin.ctStudents.edit')->with('ctStudent', $ctStudent);
+        return view('admin.ctStudents.edit')
+            ->with('ctStudent', $ctStudent)
+            ->with('schools', $this->schools)
+            ->with('academic_standings', $this->academic_standings)
+            ->with('academic_careers', $this->academic_careers)
+            ->with('ethnicities', $this->ethnicities);
     }
 
     /**
@@ -145,9 +159,9 @@ class CtStudentController extends InfyOmBaseController
      */
     public function update($id, UpdateCtStudentRequest $request)
     {
-        $ctStudent = $this->ctStudentRepository->findWithoutFail($id);
-
-
+        $ctStudent = $this->ctStudentRepository
+            ->with('contact')
+            ->findWithoutFail($id);
 
         if (empty($ctStudent)) {
             Flash::error('CtStudent not found');
@@ -155,9 +169,12 @@ class CtStudentController extends InfyOmBaseController
             return redirect(route('admin.ctStudents.index'));
         }
 
+        $contact_data = $request->input('contact');
+        $ctContact = $this->ctContactRepository->update($contact_data, $ctStudent->contact->id);
         $ctStudent = $this->ctStudentRepository->update($request->all(), $id);
 
-        Flash::success('CtStudent updated successfully.');
+        $contact_name = $ctContact->first_name . ' ' . $ctContact->last_name;
+        Flash::success($contact_name . ' updated successfully.');
 
         return redirect(route('admin.ctStudents.index'));
     }

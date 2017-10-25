@@ -62,6 +62,7 @@ class CtContactController extends InfyOmBaseController
 
         $ctContact = $this->ctContactRepository->create($input);
 
+
         Flash::success('CtContact saved successfully.');
 
         return redirect(route('admin.ctContacts.index'));
