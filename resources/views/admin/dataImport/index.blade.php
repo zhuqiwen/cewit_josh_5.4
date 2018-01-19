@@ -89,13 +89,14 @@
 
 
 {{-- page level scripts --}}
+
 @section('footer_scripts')
 
-    @include('admin.dataImport.no_access_modal')
+    {{--@include('admin.dataImport.no_access_modal')--}}
 
-    <script src="{{ asset('assets/vendors/jasny-bootstrap/js/jasny-bootstrap.js') }}" ></script>
-    @if(!env('APP_DEBUG'))
-        <script src="{{ asset('assets/js/data_import/no_access_modal.js') }}" ></script>
-    @endif
+    {{--<script src="{{ asset('assets/vendors/jasny-bootstrap/js/jasny-bootstrap.js') }}" ></script>--}}
+    {{--@if(!env('APP_DEBUG'))--}}
+        {{--<script src="{{ asset('assets/js/data_import/no_access_modal.js') }}" ></script>--}}
+    {{--@endif--}}
 
 @stop
