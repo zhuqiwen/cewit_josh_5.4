@@ -200,6 +200,10 @@ Route::get('/', array('as' => 'home', function () {
     return redirect(url('/admin'));
 }));
 
+Route::get('/signup', ['as' => 'signup', function(){
+    return view('frontend.select_join_type');
+}]);
+
 Route::get('blog', array('as' => 'blog', 'uses' => 'FrontendBlogController@index'));
 Route::get('blog/{slug}/tag', 'FrontendBlogController@getBlogTag');
 Route::get('blogitem/{slug?}', 'FrontendBlogController@getBlog');

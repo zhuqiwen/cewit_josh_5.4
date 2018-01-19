@@ -40,6 +40,7 @@ Route::group(array('prefix' => 'admin/', 'middleware' => 'admin','as'=>'admin.')
 Route::get('ctFaculties', ['as'=> 'ctFaculties.index', 'uses' => 'CtFacultyController@index']);
 Route::post('ctFaculties', ['as'=> 'ctFaculties.store', 'uses' => 'CtFacultyController@store']);
 Route::get('ctFaculties/filter', ['as'=> 'ctFaculties.filter', 'uses' => 'CtFacultyController@filter']);
+Route::get('ctFaculties/export/{type}', ['as'=> 'ctFaculties.export', 'uses' => 'CtFacultyController@export']);
 Route::get('ctFaculties/create', ['as'=> 'ctFaculties.create', 'uses' => 'CtFacultyController@create']);
 Route::put('ctFaculties/{ctFaculties}', ['as'=> 'ctFaculties.update', 'uses' => 'CtFacultyController@update']);
 Route::patch('ctFaculties/{ctFaculties}', ['as'=> 'ctFaculties.update', 'uses' => 'CtFacultyController@update']);
